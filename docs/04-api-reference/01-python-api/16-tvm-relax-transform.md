@@ -1,12 +1,10 @@
 ---
 
-title: Relax 变换
+title: tvm.relax.transform
 
 ---
 
-
-
-Relax 变换。
+tvm.relax.transform
 
 ## tvm.relax.transform.AdjustMatmulOrder()
 
@@ -16,9 +14,9 @@ Relax 变换。
 
 有助于优化 LoRA 计算，其中 matmul(x, LoraA*LoraB)可以计算为 matmul(matmul(x, LoraA), LoraB)，从而减少总内存使用量。
 * **返回：ret**：相应的 pass。
-* **返回类型：**[tvm.transform.Pass](https://tvm.apache.org/docs/reference/api/python/transform.html#tvm.transform.Pass)。
+* **返回类型：**[tvm.transform.Pass](https://tvm.hyper.ai/docs/api-reference/python-api/tvm-transform#class-tvmtransformpass)。
 
-## tvm.relax.transform.AllocateWorkspace() → [Pass](https://tvm.apache.org/docs/reference/api/python/transform.html#tvm.transform.Pass)
+## tvm.relax.transform.AllocateWorkspace() → [Pass](https://tvm.hyper.ai/docs/api-reference/python-api/tvm-transform#class-tvmtransformpass)
 
 
 分配一个工作区，用一个足够大的张量来表示，用于所有需要临时存储的外部函数，并将其附加到外部函数的参数中。
@@ -26,27 +24,27 @@ Relax 变换。
 
 外部函数可以通过 kWorkspaceSize 属性指定其工作空间要求。
 * **返回：ret**：用于分配工作空间的注册通道。
-* **返回类型：**[tvm.ir.transform.Pass](https://tvm.apache.org/docs/reference/api/python/transform.html#tvm.transform.Pass)。
+* **返回类型：**[tvm.ir.transform.Pass](https://tvm.hyper.ai/docs/api-reference/python-api/tvm-transform#class-tvmtransformpass)。
 
-## tvm.relax.transform.AlterOpImpl(*op_impl_map:*[Dict](https://docs.python.org/3/library/typing.html#typing.Dict)*[*[str](https://docs.python.org/3/library/stdtypes.html#str)*,*[PrimFunc](https://tvm.apache.org/docs/reference/api/python/tir/tir.html#tvm.tir.PrimFunc)*]*, *op_buffer_transforms:*[Dict](https://docs.python.org/3/library/typing.html#typing.Dict)*[*[str](https://docs.python.org/3/library/stdtypes.html#str)*,*[List](https://docs.python.org/3/library/typing.html#typing.List)*[*[IndexMap](https://tvm.apache.org/docs/reference/api/python/tir/tir.html#tvm.tir.IndexMap)*|*[Callable](https://docs.python.org/3/library/typing.html#typing.Callable)*]]*, *op_buffer_axis_separators:*[Dict](https://docs.python.org/3/library/typing.html#typing.Dict)*[*[str](https://docs.python.org/3/library/stdtypes.html#str)*,*[List](https://docs.python.org/3/library/typing.html#typing.List)*[axis_separator |*[Callable](https://docs.python.org/3/library/typing.html#typing.Callable)*]]*, *op_buffer_input_axis_separators:*[Dict](https://docs.python.org/3/library/typing.html#typing.Dict)*[*[str](https://docs.python.org/3/library/stdtypes.html#str)*,*[List](https://docs.python.org/3/library/typing.html#typing.List)*[axis_separator |*[Callable](https://docs.python.org/3/library/typing.html#typing.Callable)*]]*)
+## tvm.relax.transform.AlterOpImpl(*op_impl_map:*[Dict](https://docs.python.org/3/library/typing.html#typing.Dict)*[*[str](https://docs.python.org/3/library/stdtypes.html#str)*,*[PrimFunc](https://tvm.hyper.ai/docs/api-reference/python-api/tvm-tir#class-tvmtirprimfuncparams-body-ret_typenone-buffer_mapnone-attrsnone-spannone)*]*, *op_buffer_transforms:*[Dict](https://docs.python.org/3/library/typing.html#typing.Dict)*[*[str](https://docs.python.org/3/library/stdtypes.html#str)*,*[List](https://docs.python.org/3/library/typing.html#typing.List)*[*[IndexMap](https://tvm.hyper.ai/docs/api-reference/python-api/tvm-tir/#class-tvmtirindexmapinitial_indices-final_indices-inverse_index_map)*|*[Callable](https://docs.python.org/3/library/typing.html#typing.Callable)*]]*, *op_buffer_axis_separators:*[Dict](https://docs.python.org/3/library/typing.html#typing.Dict)*[*[str](https://docs.python.org/3/library/stdtypes.html#str)*,*[List](https://docs.python.org/3/library/typing.html#typing.List)*[axis_separator |*[Callable](https://docs.python.org/3/library/typing.html#typing.Callable)*]]*, *op_buffer_input_axis_separators:*[Dict](https://docs.python.org/3/library/typing.html#typing.Dict)*[*[str](https://docs.python.org/3/library/stdtypes.html#str)*,*[List](https://docs.python.org/3/library/typing.html#typing.List)*[axis_separator |*[Callable](https://docs.python.org/3/library/typing.html#typing.Callable)*]]*)
 
 
 将所有具有匹配“operator_name”属性的 PrimFunc 替换为可能在 I/O 缓冲区上具有不同布局的替代 PrimFunc。I/O 缓冲区的布局转换存在于 op_buffer_transforms 映射中。将布局转换插入到被替换的 PrimFunc 的调用点中，以便新的 PrimFunc 将 I/O 张量转换为预期的布局。
 * **参数：**
-   * **op_impl_map** (*Dict[*[str](https://docs.python.org/3/library/stdtypes.html#str)*,*[PrimFunc](https://tvm.apache.org/docs/reference/api/python/tir/tir.html#tvm.tir.PrimFunc)*]*)：op_kind 到 PrimFunc 的映射。
-   * **op_buffer_transforms** (*Dict**[***[str](https://docs.python.org/3/library/stdtypes.html#str)***,***List****[**Union****[*[IndexMap](https://tvm.apache.org/docs/reference/api/python/tir/tir.html#tvm.tir.IndexMap)*,Callable]])：op_kind 用于为每个缓冲区布局转换图。
+   * **op_impl_map** (*Dict[*[str](https://docs.python.org/3/library/stdtypes.html#str)*,*[PrimFunc](https://tvm.hyper.ai/docs/api-reference/python-api/tvm-tir#class-tvmtirprimfuncparams-body-ret_typenone-buffer_mapnone-attrsnone-spannone)*]*)：op_kind 到 PrimFunc 的映射。
+   * **op_buffer_transforms** (*Dict**[***[str](https://docs.python.org/3/library/stdtypes.html#str)***,***List****[**Union****[*[IndexMap](https://tvm.hyper.ai/docs/api-reference/python-api/tvm-tir/#class-tvmtirindexmapinitial_indices-final_indices-inverse_index_map)*,Callable]])：op_kind 用于为每个缓冲区布局转换图。
    * **op_buffer_axis_separators** (*Dict**[***[str](https://docs.python.org/3/library/stdtypes.html#str)***,*** ***List****[**Union****[**IndexMap.AXIS_SEPARATOR****,Callable**]****]]*)：每个 index_map 的 op_kind 到 axis_separator。
    * **op_buffer_input_axis_separators** (*Dict**[***[str](https://docs.python.org/3/library/stdtypes.html#str)***,*** ***List****[**Union****[**IndexMap.AXIS_SEPARATOR****,Callable**]****]]*)：输入 index_map 的 op_kind 到 axis_separator。
 * **返回：ret。**
-* **返回类型：**[tvm.ir.transform.Pass](https://tvm.apache.org/docs/reference/api/python/transform.html#tvm.transform.Pass)。
+* **返回类型：**[tvm.ir.transform.Pass](https://tvm.hyper.ai/docs/api-reference/python-api/tvm-transform#class-tvmtransformpass)。
 
 ## tvm.relax.transform.AnnotateTIROpPattern() → [Pass](https://tvm.apache.org/docs/reference/api/python/transform.html#tvm.transform.Pass)
 
 注释 TIR 函数的操作模式类型。
 * **返回：ret。**
-* **返回类型：**[tvm.ir.transform.Pass](https://tvm.apache.org/docs/reference/api/python/transform.html#tvm.transform.Pass)。
+* **返回类型：**[tvm.ir.transform.Pass](https://tvm.hyper.ai/docs/api-reference/python-api/tvm-transform#class-tvmtransformpass)。
 
-## tvm.relax.transform.AttachAttrLayoutFreeBuffers() → [Pass](https://tvm.apache.org/docs/reference/api/python/transform.html#tvm.transform.Pass)
+## tvm.relax.transform.AttachAttrLayoutFreeBuffers() → [Pass](https://tvm.hyper.ai/docs/api-reference/python-api/tvm-transform#class-tvmtransformpass)
 
 
 将布局空闲缓冲区附加到 tir::PrimFunc。
@@ -57,36 +55,36 @@ Relax 变换。
 
 请注意，我们建议在此过程之前应用 CanonicalizeBindings。
 * **返回：ret**：用于附加布局空闲缓冲区的注册过程。
-* **返回类型：**[tvm.transform.Pass](https://tvm.apache.org/docs/reference/api/python/transform.html#tvm.transform.Pass)。
+* **返回类型：**[tvm.transform.Pass](https://tvm.hyper.ai/docs/api-reference/python-api/tvm-transform#class-tvmtransformpass)。
 
-## tvm.relax.transform.AttachGlobalSymbol() → [Pass](https://tvm.apache.org/docs/reference/api/python/transform.html#tvm.transform.Pass)
+## tvm.relax.transform.AttachGlobalSymbol() → [Pass](https://tvm.hyper.ai/docs/api-reference/python-api/tvm-transform#class-tvmtransformpass)
 
 
 将 global_symbol 附加到 Relax 函数和 TIR Primfuncs 以进行代码生成。
 * **返回：ret。**
-* **返回类型：**[tvm.ir.transform.Pass](https://tvm.apache.org/docs/reference/api/python/transform.html#tvm.transform.Pass)。
+* **返回类型：**[tvm.ir.transform.Pass](https://tvm.hyper.ai/docs/api-reference/python-api/tvm-transform#class-tvmtransformpass)。
 
-## tvm.relax.transform.BindParams(*func_name:*[str](https://docs.python.org/3/library/stdtypes.html#str), *params:*[Dict](https://docs.python.org/3/library/typing.html#typing.Dict)*[*[str](https://docs.python.org/3/library/stdtypes.html#str)*|*[Var](https://tvm.apache.org/docs/reference/api/python/relax/relax.html#tvm.relax.Var)*,*[NDArray](https://tvm.apache.org/docs/reference/api/python/runtime/ndarray.html#tvm.runtime.ndarray.NDArray)*| ndarray]*) → [Pass](https://tvm.apache.org/docs/reference/api/python/transform.html#tvm.transform.Pass)
+## tvm.relax.transform.BindParams(*func_name:*[str](https://docs.python.org/3/library/stdtypes.html#str), *params:*[Dict](https://docs.python.org/3/library/typing.html#typing.Dict)*[*[str](https://docs.python.org/3/library/stdtypes.html#str)*|*[Var](https://tvm.hyper.ai/docs/api-reference/python-api/tvm-relax#classtvmrelaxvarname_hintstridstruct_infostructinfononenonespanspannonenone)*,*Tensor*| ndarray]*) → [Pass](https://tvm.hyper.ai/docs/api-reference/python-api/tvm-transform#class-tvmtransformpass)
 
 
 将模块函数的参数绑定到常量张量。
 * **参数：**
    * **func_name** ([str](https://docs.python.org/3/library/stdtypes.html#str))：要绑定的函数名称。
-   * **params** (*Dict**[****Union**[***[str](https://docs.python.org/3/library/stdtypes.html#str)***,***[relax.Var](https://tvm.apache.org/docs/reference/api/python/relax/relax.html#tvm.relax.Var)***]****,Union**[****tvm.runtime.NDArray**,*** ***np.ndarray****]]*)**：** 从参数或参数名称到常量张量的映射。
+   * **params** (*Dict**[****Union**[***[str](https://docs.python.org/3/library/stdtypes.html#str)***,***[relax.Var](https://tvm.hyper.ai/docs/api-reference/python-api/tvm-relax#classtvmrelaxvarname_hintstridstruct_infostructinfononenonespanspannonenone)***]****,Union**[****tvm.runtime.NDArray**,*** ***np.ndarray****]]*)**：** 从参数或参数名称到常量张量的映射。
 * **返回：ret。**
-* **返回类型：**[tvm.ir.transform.Pass](https://tvm.apache.org/docs/reference/api/python/transform.html#tvm.transform.Pass)。
+* **返回类型：**[tvm.ir.transform.Pass](https://tvm.hyper.ai/docs/api-reference/python-api/tvm-transform#class-tvmtransformpass)。
 
-## tvm.relax.transform.BindSymbolicVars(*binding_map:*[Mapping](https://docs.python.org/3/library/typing.html#typing.Mapping)*[*[str](https://docs.python.org/3/library/stdtypes.html#str)*|*[Var](https://tvm.apache.org/docs/reference/api/python/tir/tir.html#tvm.tir.Var)*,*[PrimExpr](https://tvm.apache.org/docs/reference/api/python/ir.html#tvm.ir.PrimExpr)*]*, *func_name:*[str](https://docs.python.org/3/library/stdtypes.html#str)*|*[None](https://docs.python.org/3/library/constants.html#None)*= None*) → [Pass](https://tvm.apache.org/docs/reference/api/python/transform.html#tvm.transform.Pass)
+## tvm.relax.transform.BindSymbolicVars(*binding_map:*[Mapping](https://docs.python.org/3/library/typing.html#typing.Mapping)*[*[str](https://docs.python.org/3/library/stdtypes.html#str)*|*[Var](https://tvm.hyper.ai/docs/api-reference/python-api/tvm-tir#class-tvmtirvarnamestr-dtypestrtype-spanspannone-none)*,*[PrimExpr](https://tvm.hyper.ai/docs/api-reference/python-api/tvm-ir#class-tvmirprimexpr)*]*, *func_name:*[str](https://docs.python.org/3/library/stdtypes.html#str)*|*[None](https://docs.python.org/3/library/constants.html#None)*= None*) → [Pass](https://tvm.hyper.ai/docs/api-reference/python-api/tvm-transform#class-tvmtransformpass)
 
 
 将模块函数的参数绑定到常量张量。
 * **参数：**
-   * **binding_map** (*Mapping**[****Union**[***[str](https://docs.python.org/3/library/stdtypes.html#str)***,*** [tvm.tir.Var](https://tvm.apache.org/docs/reference/api/python/tir/tir.html#tvm.tir.Var)***]****,tvm.tir.PrimExpr]*)：从符号 varname 到整数的映射。
+   * **binding_map** (*Mapping**[****Union**[***[str](https://docs.python.org/3/library/stdtypes.html#str)***,*** [tvm.tir.Var](https://tvm.hyper.ai/docs/api-reference/python-api/tvm-tir#class-tvmtirvarnamestr-dtypestrtype-spanspannone-none)***]****,tvm.tir.PrimExpr]*)：从符号 varname 到整数的映射。
    * **func_name** (*Optional[*[str](https://docs.python.org/3/library/stdtypes.html#str)*]*)：要绑定的函数名称。如果为 None （默认），则模块内的所有函数都将更新。
 * **返回：ret。**
-* **返回类型：**[tvm.ir.transform.Pass](https://tvm.apache.org/docs/reference/api/python/transform.html#tvm.transform.Pass)。
+* **返回类型：**[tvm.ir.transform.Pass](https://tvm.hyper.ai/docs/api-reference/python-api/tvm-transform#class-tvmtransformpass)。
 
-## tvm.relax.transform.BundleModelParams(*param_tuple_name:*[str](https://docs.python.org/3/library/stdtypes.html#str)*|*[None](https://docs.python.org/3/library/constants.html#None)*= None*) → [Pass](https://tvm.apache.org/docs/reference/api/python/transform.html#tvm.transform.Pass)
+## tvm.relax.transform.BundleModelParams(*param_tuple_name:*[str](https://docs.python.org/3/library/stdtypes.html#str)*|*[None](https://docs.python.org/3/library/constants.html#None)*= None*) → [Pass](https://tvm.hyper.ai/docs/api-reference/python-api/tvm-transform#class-tvmtransformpass)
 
 
 将多个模型参数捆绑成一个元组参数
@@ -94,17 +92,17 @@ Relax 变换。
 
 对于每个函数，如果该函数具有属性“num_input”，则将其运行时参数和编译时权重分开。运行时参数（例如激活函数）是第一个 num_input 参数，其余参数是编译时权重。
 * **参数：param_tuple_name** (*Optional[*[str](https://docs.python.org/3/library/stdtypes.html#str)*]*)：元组参数的名称。如果未指定，则默认为“model_params”。
-* **返回：ret**[：](https://tvm.apache.org/docs/reference/api/python/transform.html#tvm.transform.Pass)用于捆绑模型参数的注册过程。
-* **返回类型：**[tvm.transform.Pass](https://tvm.apache.org/docs/reference/api/python/transform.html#tvm.transform.Pass)。
+* **返回：ret**- 用于捆绑模型参数的注册过程。
+* **返回类型：**[tvm.transform.Pass](https://tvm.hyper.ai/docs/api-reference/python-api/tvm-transform#class-tvmtransformpass)。
 
-## tvm.relax.transform.CallTIRRewrite() → [Pass](https://tvm.apache.org/docs/reference/api/python/transform.html#tvm.transform.Pass)
+## tvm.relax.transform.CallTIRRewrite() → [Pass](https://tvm.hyper.ai/docs/api-reference/python-api/tvm-transform#class-tvmtransformpass)
 
 
 为 call_tir 和 call_dps_packed 执行显式张量分配。
 * **返回：ret。**
-* **返回类型：**[tvm.ir.transform.Pass](https://tvm.apache.org/docs/reference/api/python/transform.html#tvm.transform.Pass)。
+* **返回类型：**[tvm.ir.transform.Pass](https://tvm.hyper.ai/docs/api-reference/python-api/tvm-transform#class-tvmtransformpass)。
 
-## tvm.relax.transform.CanonicalizeBindings() → [Pass](https://tvm.apache.org/docs/reference/api/python/transform.html#tvm.transform.Pass)
+## tvm.relax.transform.CanonicalizeBindings() → [Pass](https://tvm.hyper.ai/docs/api-reference/python-api/tvm-transform#class-tvmtransformpass)
 
 
 规范化变量定义（例如，如果 y = x 且 z = y，则将 y 和 z 替换为 x）。同时简化匹配强制类型转换节点（消除冗余检查）和元组索引。
@@ -115,7 +113,7 @@ Relax 变换。
 
 注意：如果数据流变量仅用于与数据流块输出变量（即非数据流变量）的绑定，则此过程还将删除数据流变量并用数据流变量的直接定义替换输出变量的绑定。
 * **返回：ret。**
-* **返回类型：**[tvm.ir.transform.Pass](https://tvm.apache.org/docs/reference/api/python/transform.html#tvm.transform.Pass)。
+* **返回类型：**[tvm.ir.transform.Pass](https://tvm.hyper.ai/docs/api-reference/python-api/tvm-transform#class-tvmtransformpass)。
 
 ## tvm.relax.transform.CombineParallelMatmul(*check=None*)
 
@@ -125,11 +123,12 @@ Relax 变换。
 
 目前仅支持有限的融合操作，包括 bias add、relu、gelu、gelu_tanh 和 silu 激活。
 * **参数：**
-   * **check** (*Callable**[****[*[relax.Var](https://tvm.apache.org/docs/reference/api/python/relax/relax.html#tvm.relax.Var)*,List**[***[relax.Var](https://tvm.apache.org/docs/reference/api/python/relax/relax.html#tvm.relax.Var)***]****,List**[***[relax.Var](https://tvm.apache.org/docs/reference/api/python/relax/relax.html#tvm.relax.Var)***]****,Dict**[***[relax.Var](https://tvm.apache.org/docs/reference/api/python/relax/relax.html#tvm.relax.Var)***,*** ***Expr****]**]****,*[bool](https://docs.python.org/3/library/functions.html#bool)*]*)[：](https://tvm.apache.org/docs/reference/api/python/transform.html#tvm.transform.Pass)> bool。
+   * **check** (*Callable**[****[*[relax.Var](https://tvm.hyper.ai/docs/api-reference/python-api/tvm-relax#classtvmrelaxvarname_hintstridstruct_infostructinfononenonespanspannonenone)*,List**[***[relax.Var](https://tvm.hyper.ai/docs/api-reference/python-api/tvm-relax#classtvmrelaxvarname_hintstridstruct_infostructinfononenonespanspannonenone)***]****,List**[***[relax.Var](https://tvm.hyper.ai/docs/api-reference/python-api/tvm-relax#classtvmrelaxvarname_hintstridstruct_infostructinfononenonespanspannonenone)***]****,Dict**[***[relax.Var](https://tvm.hyper.ai/docs/api-reference/python-api/tvm-relax#classtvmrelaxvarname_hintstridstruct_infostructinfononenonespanspannonenone)***,*** ***Expr**]**]****,*[bool](https://docs.python.org/3/library/functions.html#bool)*]*)– 用于筛选不需要分支的函数，其函数签名为 (input, [rhs], [bias], binding)-> bool。
+  
 * **返回：ret**：相应的 pass。
-* **返回类型：**[tvm.transform.Pass](https://tvm.apache.org/docs/reference/api/python/transform.html#tvm.transform.Pass)。
+* **返回类型：**[tvm.transform.Pass](https://tvm.hyper.ai/docs/api-reference/python-api/tvm-transform#class-tvmtransformpass)。
 
-## tvm.relax.transform.ComputePrimValue() → [Pass](https://tvm.apache.org/docs/reference/api/python/transform.html#tvm.transform.Pass)
+## tvm.relax.transform.ComputePrimValue() → [Pass](https://tvm.hyper.ai/docs/api-reference/python-api/tvm-transform#class-tvmtransformpass)
 
 
 计算所有 R.prim_value 实例。
@@ -137,16 +136,16 @@ Relax 变换。
 
 虽然高级的 Relax 函数可以包含符号变量形式的表达式，但这些表达式无法在 Relax 函数中原生计算。为了给符号表达式提供值（例如 R.prim_value(N*N)，其中 N 是符号变量），此过程会生成一个 PrimFunc 函数，用于计算该表达式。之后，Relax 函数图会更新，包含对该 PrimFunc 函数的调用，以替代原始的 R.prim_value(expr)。
 * **返回：ret。**
-* **返回类型：**[tvm.ir.transform.Pass](https://tvm.apache.org/docs/reference/api/python/transform.html#tvm.transform.Pass)。
+* **返回类型：**[tvm.ir.transform.Pass](https://tvm.hyper.ai/docs/api-reference/python-api/tvm-transform#class-tvmtransformpass)。
 
-## tvm.relax.transform.ConvertLayout(*desired_layouts:*[Dict](https://docs.python.org/3/library/typing.html#typing.Dict)*[*[str](https://docs.python.org/3/library/stdtypes.html#str)*,*[List](https://docs.python.org/3/library/typing.html#typing.List)*[*[str](https://docs.python.org/3/library/stdtypes.html#str)*]]*) → [Pass](https://tvm.apache.org/docs/reference/api/python/transform.html#tvm.transform.Pass)
+## tvm.relax.transform.ConvertLayout(*desired_layouts:*[Dict](https://docs.python.org/3/library/typing.html#typing.Dict)*[*[str](https://docs.python.org/3/library/stdtypes.html#str)*,*[List](https://docs.python.org/3/library/typing.html#typing.List)*[*[str](https://docs.python.org/3/library/stdtypes.html#str)*]]*) → [Pass](https://tvm.hyper.ai/docs/api-reference/python-api/tvm-transform#class-tvmtransformpass)
 
 自动布局转换过程。
 * **参数：desired_layouts** (*Dict**[***[str](https://docs.python.org/3/library/stdtypes.html#str)***,*** ***List****[*[str](https://docs.python.org/3/library/stdtypes.html#str)*]]*)：conv2d 操作所需的布局是从操作名称到所需特征图、权重和输出的所需布局的映射。例如，如果我们想将 conv2d 的布局从 NCHW 转换为 NHWC，我们可以将 conv2d 的所需布局设置为 。`{"relax.nn.conv2d": ["NHWC", "OHWI"]}`
 * **返回：ret**：布局转换的注册过程。
-* **返回类型：**[tvm.transform.Pass](https://tvm.apache.org/docs/reference/api/python/transform.html#tvm.transform.Pass)。
+* **返回类型：**[tvm.transform.Pass](https://tvm.hyper.ai/docs/api-reference/python-api/tvm-transform#class-tvmtransformpass)。
 
-## tvm.relax.transform.ConvertToDataflow(*min_size:*[int](https://docs.python.org/3/library/functions.html#int)*= 2*) → [Pass](https://tvm.apache.org/docs/reference/api/python/transform.html#tvm.transform.Pass)[](https://tvm.apache.org/docs/reference/api/python/relax/transform.html#tvm.relax.transform.ConvertToDataflow) 
+## tvm.relax.transform.ConvertToDataflow(*min_size:*[int](https://docs.python.org/3/library/functions.html#int)*= 2*) → [Pass](https://tvm.hyper.ai/docs/api-reference/python-api/tvm-transform#class-tvmtransformpass)[](https://tvm.apache.org/docs/reference/api/python/relax/transform.html#tvm.relax.transform.ConvertToDataflow) 
 
 
 将绑定块内的连续数据流操作转换为数据流块的过程。
